@@ -6,7 +6,7 @@ export default function Header() {
   const location = useLocation();
 
   return (
-    <header className="border-b border-white/10 px-8 py-6 sticky top-0 bg-[#050505]/80 backdrop-blur-md z-10 flex flex-col md:flex-row gap-4 md:items-center justify-between">
+    <header className="border-b border-white/10 px-4 md:px-8 py-4 md:py-6 sticky top-0 bg-[#050505]/80 backdrop-blur-md z-10 flex flex-col md:flex-row gap-4 md:items-center justify-between">
       <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
         <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#F27D26] to-[#FF4444] flex items-center justify-center">
           <Wand2 size={24} className="text-black" />

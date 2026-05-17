@@ -75,10 +75,10 @@ export default function TextPromptGenerator() {
   };
 
   return (
-    <main className="max-w-6xl mx-auto px-8 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
-      <section className="lg:col-span-5 space-y-10">
+    <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+      <section className="lg:col-span-5 space-y-8 lg:space-y-10">
         <div>
-          <h2 className="text-4xl font-light tracking-tight mb-3">Craft your intent.</h2>
+          <h2 className="text-3xl lg:text-4xl font-light tracking-tight mb-2 lg:mb-3">Craft your intent.</h2>
           <p className="text-white/60 leading-relaxed max-w-md">
             Select multiple tags or describe your idea below. The AI will weave them into a high-quality, inspiring prompt ready for immediate use.
           </p>
@@ -152,9 +152,9 @@ export default function TextPromptGenerator() {
         </div>
       </section>
 
-      <section className="lg:col-span-7">
-        <div className="sticky top-32">
-          <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-8 min-h-[400px] flex flex-col relative overflow-hidden group">
+      <section className="lg:col-span-7 mt-8 lg:mt-0">
+        <div className="lg:sticky lg:top-32">
+          <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-6 lg:p-8 min-h-[300px] lg:min-h-[400px] flex flex-col relative overflow-hidden group">
             
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#F27D26]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             
