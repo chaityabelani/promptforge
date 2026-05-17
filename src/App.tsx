@@ -4,24 +4,24 @@ import { Sparkles, Terminal, BookOpen, Wand2, Copy, Check, Hash, Settings, Palet
 
 const TAG_CATEGORIES = [
   {
-    name: 'Concept',
+    name: 'Focus',
     icon: <Settings size={16} />,
-    tags: ['World Building', 'Character Arc', 'Code Architecture', 'Debugging', 'Refactoring', 'Plot Twist']
+    tags: ['Code Architecture', 'Debugging', 'World Building', 'Character Arc']
   },
   {
-    name: 'Genre',
+    name: 'Genre & Domain',
     icon: <BookOpen size={16} />,
-    tags: ['Sci-Fi', 'Fantasy', 'Cyberpunk', 'Mystery', 'Romance', 'Horror', 'Web Development', 'Machine Learning']
+    tags: ['Sci-Fi', 'Fantasy', 'Web Development', 'Machine Learning']
   },
   {
     name: 'Style',
     icon: <Palette size={16} />,
-    tags: ['Cinematic', 'Minimalist', 'Detailed', 'Humorous', 'Dark', 'Exploratory', 'Idiomatic', 'Optimized']
+    tags: ['Detailed', 'Humorous', 'Idiomatic', 'Optimized']
   },
   {
     name: 'Format',
     icon: <Terminal size={16} />,
-    tags: ['Story', 'Dialogue', 'Code Snippet', 'Documentation', 'Tutorial', 'Interview', 'Poem']
+    tags: ['Story', 'Code Snippet', 'Documentation', 'Tutorial']
   }
 ];
 
@@ -102,7 +102,7 @@ export default function App() {
           </div>
 
           <div className="space-y-8">
-            <div className="space-y-3">
+            <div className="space-y-4">
               <label htmlFor="description" className="flex items-center gap-2 text-white/40 uppercase tracking-widest text-xs font-semibold">
                 <BookOpen size={16} />
                 <span>Describe your idea (Optional)</span>
@@ -114,6 +114,30 @@ export default function App() {
                 placeholder="E.g., I want to build a cyberpunk RPG battle system..."
                 className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white/90 placeholder:text-white/30 focus:outline-none focus:border-[#F27D26]/50 focus:ring-1 focus:ring-[#F27D26]/50 transition-all min-h-[120px] resize-y"
               />
+              
+              <button
+                onClick={handleGenerate}
+                disabled={selectedTags.length === 0 || isLoading}
+                className={`w-full py-4 rounded-xl flex items-center justify-center gap-3 text-sm uppercase tracking-widest font-bold transition-all duration-300 ${
+                  selectedTags.length === 0
+                    ? 'bg-white/5 text-white/30 cursor-not-allowed'
+                    : isLoading
+                    ? 'bg-white/10 text-white/50 cursor-wait'
+                    : 'bg-white text-black hover:bg-[#F27D26] hover:scale-[1.02] active:scale-95'
+                }`}
+              >
+                {isLoading ? (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                  >
+                    <Settings size={20} />
+                  </motion.div>
+                ) : (
+                  <Sparkles size={20} />
+                )}
+                {isLoading ? 'Forging Prompt...' : 'Generate Prompt'}
+              </button>
             </div>
 
             {TAG_CATEGORIES.map((category, idx) => (
@@ -142,32 +166,6 @@ export default function App() {
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="pt-4 border-t border-white/10">
-            <button
-              onClick={handleGenerate}
-              disabled={selectedTags.length === 0 || isLoading}
-              className={`w-full py-4 rounded-xl flex items-center justify-center gap-3 text-sm uppercase tracking-widest font-bold transition-all duration-300 ${
-                selectedTags.length === 0
-                  ? 'bg-white/5 text-white/30 cursor-not-allowed'
-                  : isLoading
-                  ? 'bg-white/10 text-white/50 cursor-wait'
-                  : 'bg-white text-black hover:bg-[#F27D26] hover:scale-[1.02] active:scale-95'
-              }`}
-            >
-              {isLoading ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-                >
-                  <Settings size={20} />
-                </motion.div>
-              ) : (
-                <Sparkles size={20} />
-              )}
-              {isLoading ? 'Forging Prompt...' : 'Generate Prompt'}
-            </button>
           </div>
         </section>
 
