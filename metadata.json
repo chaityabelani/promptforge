@@ -1,0 +1,6 @@
+{
+  "name": "PromptForge",
+  "description": "A creative prompt generator application utilizing tags to build high-quality prompts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
