@@ -1,10 +1,19 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Terminal, Copy, Check, Hash, Settings, Upload, X, Image as ImageIcon, BookOpen } from 'lucide-react';
+import { Sparkles, Terminal, Copy, Check, Hash, Settings, Upload, X, Image as ImageIcon, BookOpen, UserCircle } from 'lucide-react';
+
+const PERSONAS = [
+  "Expert Software Engineer",
+  "Creative Fiction Writer",
+  "UX/UI Product Designer",
+  "Startup Founder",
+  "Data Scientist"
+];
 
 export default function ImagePromptGenerator() {
   const [image, setImage] = useState<string | null>(null);
   const [description, setDescription] = useState('');
+  const [persona, setPersona] = useState('');
   const [generatedPrompt, setGeneratedPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -26,7 +35,7 @@ export default function ImagePromptGenerator() {
       const response = await fetch('/api/generate-prompt', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tags: ['Image Inspiration'], description, image })
+        body: JSON.stringify({ tags: ['Image Inspiration'], description, image, persona })
       });
       
       const data = await response.json();
@@ -118,6 +127,28 @@ export default function ImagePromptGenerator() {
                   <span className="text-xs opacity-60">PNG, JPG, WEBP</span>
                 </button>
               )}
+            </div>
+
+            <div className="space-y-3 pt-4 border-t border-white/10">
+              <label className="flex items-center gap-2 text-white/40 uppercase tracking-widest text-xs font-semibold">
+                <UserCircle size={16} />
+                <span>Target Persona (Optional)</span>
+              </label>
+              <div className="relative">
+                <select 
+                  value={persona}
+                  onChange={(e) => setPersona(e.target.value)}
+                  className="w-full bg-[#111111] lg:bg-white/5 border border-white/10 rounded-xl p-4 pr-10 text-sm text-white/90 focus:outline-none focus:border-[#F27D26]/50 focus:ring-1 focus:ring-[#F27D26]/50 transition-all appearance-none"
+                >
+                  <option value="" className="bg-[#111111] text-white/90">Any Persona</option>
+                  {PERSONAS.map(p => (
+                    <option key={p} value={p} className="bg-[#111111] text-white/90">{p}</option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-white/40">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-3 pt-4 border-t border-white/10">

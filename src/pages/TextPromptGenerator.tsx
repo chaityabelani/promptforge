@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Terminal, BookOpen, Copy, Check, Hash, Settings, Palette } from 'lucide-react';
+import { Sparkles, Terminal, BookOpen, Copy, Check, Hash, Settings, Palette, UserCircle } from 'lucide-react';
 
 const TAG_CATEGORIES = [
   {
@@ -25,9 +25,18 @@ const TAG_CATEGORIES = [
   }
 ];
 
+const PERSONAS = [
+  "Expert Software Engineer",
+  "Creative Fiction Writer",
+  "UX/UI Product Designer",
+  "Startup Founder",
+  "Data Scientist"
+];
+
 export default function TextPromptGenerator() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [description, setDescription] = useState('');
+  const [persona, setPersona] = useState('');
   const [generatedPrompt, setGeneratedPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -50,7 +59,7 @@ export default function TextPromptGenerator() {
       const response = await fetch('/api/generate-prompt', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tags: selectedTags, description })
+        body: JSON.stringify({ tags: selectedTags, description, persona })
       });
       
       const data = await response.json();
@@ -85,6 +94,28 @@ export default function TextPromptGenerator() {
         </div>
 
         <div className="space-y-8">
+          <div className="space-y-4">
+            <label className="flex items-center gap-2 text-white/40 uppercase tracking-widest text-xs font-semibold">
+              <UserCircle size={16} />
+              <span>Target Persona (Optional)</span>
+            </label>
+            <div className="relative">
+              <select 
+                value={persona}
+                onChange={(e) => setPersona(e.target.value)}
+                className="w-full bg-[#111111] lg:bg-white/5 border border-white/10 rounded-xl p-4 pr-10 text-sm text-white/90 focus:outline-none focus:border-[#F27D26]/50 focus:ring-1 focus:ring-[#F27D26]/50 transition-all appearance-none"
+              >
+                <option value="" className="bg-[#111111] text-white/90">Any Persona</option>
+                {PERSONAS.map(p => (
+                  <option key={p} value={p} className="bg-[#111111] text-white/90">{p}</option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-white/40">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-4">
             <label htmlFor="description" className="flex items-center gap-2 text-white/40 uppercase tracking-widest text-xs font-semibold">
               <BookOpen size={16} />

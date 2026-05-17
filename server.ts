@@ -12,9 +12,9 @@ async function startServer() {
   // API Route for Prompt Generation
   app.post("/api/generate-prompt", async (req, res) => {
     try {
-      const { tags, description, image } = req.body;
-      if (!tags || !Array.isArray(tags) || tags.length === 0) {
-        return res.status(400).json({ error: "Please provide at least one tag." });
+      const { tags, description, image, persona } = req.body;
+      if (!tags && !image && !description) {
+        return res.status(400).json({ error: "Please provide at least a tag, description, or image." });
       }
 
       if (!process.env.GEMINI_API_KEY) {
@@ -30,18 +30,29 @@ async function startServer() {
         }
       });
 
-      let promptStr = `You are an expert creative prompt engineer. The user wants a creative writing or coding prompt based on the following concepts/tags: ${tags.join(", ")}.`;
+      let promptStr = `You are an expert prompt engineer. Your goal is to write a highly detailed, extremely accurate, and specialized prompt that the user can copy-paste into an AI model (like ChatGPT, Claude, or Gemini) to get the best possible result.`;
+      
+      if (persona) {
+         promptStr += `\n\nTarget AI Persona: The prompt you generate MUST instruct the AI to act as a "${persona}". Incorporate this deeply into the generated prompt's instructions.`;
+      }
+
+      if (tags && tags.length > 0) {
+        promptStr += `\n\nContext/Tags: Ensure the prompt revolves around these concepts: ${tags.join(", ")}.`;
+      }
       
       if (description && description.trim().length > 0) {
-        promptStr += `\nThey also provided this specific description/idea: "${description}". Incorporate this idea deeply into the generated prompt.`;
+        promptStr += `\n\nSpecific Idea/Description from User: "${description}". The generated prompt must heavily focus on bringing this specific idea to life.`;
       }
       
       if (image) {
-        promptStr += `\nTake heavy inspiration from the provided image. Combine aspects seen in the image with the provided tags and idea.`;
+        promptStr += `\n\nVisual Inspiration: Take heavy inspiration from the provided image. Describe the key elements and atmosphere of the image and weave them into the prompt.`;
       }
       
-      promptStr += `\nGenerate a high-quality, inspiring, and detailed prompt. Ensure the prompt is ready to be used by a user to copy and paste into an AI or use for writing/coding.
-Provide the response as a cohesive block of text. Avoid unnecessary conversational filler.`;
+      promptStr += `\n\nRequirements for the Generated Prompt:
+- DO NOT answer the user's idea directly. You are GENERATING A PROMPT for them to use.
+- The output should be JUST the prompt, ready to copy and paste. Do not include introductory or concluding remarks like "Here is your prompt:".
+- Make it highly structured, potentially using markdown, clear constraints, and precise instructions.
+- Ensure it asks the target AI to break down complex tasks, use a specific tone, or follow a format if relevant to the tags/description.`;
 
       let promptContents: any[] = [promptStr];
       if (image) {
