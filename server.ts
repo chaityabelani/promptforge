@@ -52,6 +52,7 @@ async function startServer() {
 - DO NOT answer the user's idea directly. You are GENERATING A PROMPT for them to use.
 - The output should be JUST the prompt, ready to copy and paste. Do not include introductory or concluding remarks like "Here is your prompt:".
 - Make it highly structured, potentially using markdown, clear constraints, and precise instructions.
+- Length Constraint: The prompt should be well-proportioned (ideally 100-300 words). It must be comprehensive enough to set strict constraints and context, but concise enough to remain focused and not overly rambling. Avoid unnecessary filler instructions.
 - Ensure it asks the target AI to break down complex tasks, use a specific tone, or follow a format if relevant to the tags/description.`;
 
       let promptContents: any[] = [promptStr];
